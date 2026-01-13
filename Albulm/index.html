@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Albulm File Box</title>
+  <style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ffffff;
+        font-family: 'Anonymous Pro', monospace;
+    }
+
+    .container {
+        position: relative;
+        width: 400px; 
+        height: 200px;
+    }
+
+    
+    .rectangle {
+        position: absolute;
+        bottom: 0;
+        width: 400px;
+        height: 200px;
+        background: rgb(205, 179, 153);
+        border: 2px solid rgb(174, 151, 128);
+    }
+
+   
+    .triangle-left {
+        position: absolute;
+        top: -63px;   
+        left: 0;
+        width: 0;
+        height: 0;
+        border-right: 80px solid rgb(161, 135, 110); 
+        border-top: 60px solid transparent;
+    }
+
+    .rectangle-center{
+        position: absolute;
+        top: -63px;   
+        left: 80px; 
+        width: 240px;
+        height: 60px;
+        background: rgb(205, 179, 153);
+        border: 2px solid rgb(174, 151, 128);
+    }
+
+    .triangle-right {
+        position: absolute;
+        top: -63px;
+        right: -4px;
+        width: 0;
+        height: 0;
+        border-left: 80px solid rgb(161, 135, 110); 
+        border-top: 60px solid transparent;
+    }
+
+    .about{
+        position: absolute;
+        bottom: 0;
+        bottom: 10px;
+        right: -26px;
+        width: 20px;
+        height: 40px;
+        background: rgb(255, 246, 237);
+        border: 2px solid rgb(174, 151, 128);
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        font-family: 'Anonymous Pro', monospace;
+    }
+
+    .about-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        padding: 20px;
+        background: rgb(255, 246, 237);
+        border: 2px solid rgb(174, 151, 128);
+        border-radius: 5px;
+        display: none;
+        font-size: 14px;
+        line-height: 1.4;
+        z-index: 10;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        font-family: 'Anonymous Pro', monospace;
+    }
+
+    .about-text {
+        display: inline-block;  
+        transform: rotate(90deg);
+        transform-origin: center;
+        font-family: 'Anonymous Pro', monospace;
+    }
+
+    .folder1{
+        position: absolute;          
+        bottom: 0;              
+        left: 50%;     
+        transform: translateX(-50%);
+        width: 375px;              
+        height: 210px;
+        background: rgb(169, 241, 255);
+        border: 2px solid rgb(147, 221, 236);
+        border-radius: 10px;
+        z-index: 0;    
+        transition: transform 0.3s ease, box-shadow 0.3s ease;    
+        transform-origin: bottom center;        
+    }
+
+   .folder1-tab {
+        position: absolute;     
+        top: -20px;              
+        left: 30px;             
+        width: 50px;            
+        height: 15px;           
+        background: rgb(169, 241, 255);
+        border: 2px solid rgb(147, 221, 236);
+        border-radius: 3px;
+        display: flex;           
+        justify-content: center; 
+        align-items: center;  
+    }
+
+    .folder1-texts {
+        font-family: 'Anonymous Pro', monospace;
+        font-size: 10px;  
+        color: rgb(96, 168, 182);
+    }
+
+    .folder1:hover {
+        transform: translateX(-50%) scale(1.02);
+    }
+
+  </style>
+</head>
+<body>
+
+    <div class="container">
+    <div class="triangle-left"></div>
+    <div class="rectangle-center"></div>
+    <div class="triangle-right"></div>
+    <a href="R&B/index.html">
+      <div class="folder1">
+            <div class="folder1-tab">
+                <span class="folder1-texts">POP</span>
+            </div>
+        </div>
+    </a>
+    <div class="rectangle"></div>
+    <div class="about" onclick="toggleAbout()">
+    <span class="about-text">About</span>
+    </div>
+    <div class="about-popup" id="aboutPopup">
+    <strong>About This Project</strong><br><br>
+    <ul>
+        <li>This project is a personal music catalog that reflects my musical taste.</li>
+        <li>I enjoy a wide variety of genres, including Pop, Rock, Hip Hop, Jazz, and R&B.</li>
+        <li>This website serves as a space to record my favorite songs and share the music I love with others.</li>
+        <li>Created by Jiayao Dou.</li>
+    </ul>
+</div>
+
+  </div>
+
+  <script>
+    function toggleAbout() {
+      const popup = document.getElementById("aboutPopup");
+      popup.style.display = popup.style.display === "block" ? "none" : "block";
+    }
+  </script>
+
+</body>
+</html>
