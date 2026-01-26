@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close"
+    />
+    <title>Toggle Side Panel</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        padding: 20px;
+        background: #7088f1;
+      }
+
+      .toggle-button {
+        padding: 12px 24px;
+        color: rgb(0, 0, 0);
+        border: 2px black solid;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .toggle-button:hover {
+        background: #000000;
+        color: white;
+      }
+
+      /* Side Panel */
+      .side-panel {
+        /* position */
+        position: fixed; 
+        top: 0;
+        right:0;
+        width: 50%;
+        height: 100vh;
+        background: rgb(126, 126, 126);
+        z-index: 1;
+      }
+
+      /* Panel Header */
+      .panel-header {
+        padding: 20px;
+        color: rgb(0, 0, 0);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .panel-header h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .close-button {
+        background: none;
+        border: none;
+        color: rgb(0, 0, 0);
+        font-size: 28px;
+        cursor: pointer;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .close-button:hover {
+        border: 2px white solid;
+      }
+
+      
+    </style>
+  </head>
+  <body>
+    <h1>Toggle Side Panel Example</h1>
+    <p>Click the button below to open the side panel</p>
+    <br />
+    <button class="toggle-button" id="toggleButton">Open Panel</button>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Side Panel -->
+    <div class="side-panel" id="sidePanel">
+      <div class="panel-header">
+        <h2>Panel Menu</h2>
+        <button class="close-button" id="closeButton">
+          <span class="material-symbols-outlined"> close </span>
+        </button>
+      </div>
+    </div>
+
+    <script>
+    </script>
+  </body>
+</html>

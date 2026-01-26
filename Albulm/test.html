@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        position: relative;
+      }
+
+      .hover-box {
+        text-align: center;
+        position: fixed;
+        top: 25%;
+        left: 25%;
+        display: flex;
+        width: 50vw;
+        background-color: aqua;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .box {
+        position: relative;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 20px;
+        width: 50vw;
+      }
+
+      #box-1 {
+        position: absolute;
+        transform: translateY(-20px);
+      }
+      #box-2 {
+        position: absolute;
+        transform: translateY(-10px);
+      }
+      #box-3 {
+        position: absolute;
+      }
+      #box-4 {
+        position: absolute;
+        transform: translateY(10px);
+      }
+
+      #box-5 {
+        position: absolute;
+        transform: translateY(20px);
+      }
+
+      .box img {
+        width: 500px;
+        left: 0;
+        z-index: -1000;
+        position: absolute;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="hover-box">
+      <div class="box" id="box-1">
+        1
+        <img src="pop.png" alt="" />
+      </div>
+      <div class="box" id="box-2">
+        2
+        <img src="pop.png" alt="" />
+      </div>
+      <div class="box" id="box-3">
+        3
+        <img src="pop.png" alt="" />
+      </div>
+      <div class="box" id="box-4">
+        4
+        <img src="pop.png" alt="" />
+      </div>
+      <div class="box" id="box-5">
+        5
+        <img src="pop.png" alt="" />
+      </div>
+    </div>
+  </body>
+</html>

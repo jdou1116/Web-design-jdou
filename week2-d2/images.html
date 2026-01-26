@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>imgs</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .flex {
+        display: flex;
+        flex-direction: row;
+        width: 100%; /* fill container width -> screen */
+        height: 100vh;
+      }
+
+      .v-imgs {
+        /* flex: 1 tells each image: "grow to fill available space equally" 
+        If you have 3 images with `flex: 1`, each gets 1/3 of the container width */
+        flex: 1;
+        /* ignore the natural size of the image */
+        width: 0;
+        /* fill container height */
+        height: 100%;
+        /* no cropping and no stretching */
+        object-fit: contain;
+      }
+      
+.grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    width: 100%;        /* Full screen width */
+;
+}
+
+.grid img {
+    width: 100%;        /* Fill the grid cell width */
+    height: 100%;       /* Fill the grid cell height */
+    object-fit: contain;
+
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+        <img src="imgs/bell-pepper-red.png" alt="">
+        <img src="imgs/bell-pepper-yellow.png" alt="">
+        <img src="imgs/broc.png" alt="">
+        <img src="imgs/celery.png" alt="">
+        <img src="imgs/pumpkin.webp" alt="">
+        <img src="imgs/bell-pepper-red.png" alt="">
+        <img src="imgs/bell-pepper-yellow.png" alt="">
+        <img src="imgs/broc.png" alt="">
+        <img src="imgs/celery.png" alt="">
+        <img src="imgs/pumpkin.webp" alt="">
+        <img src="imgs/bell-pepper-red.png" alt="">
+        <img src="imgs/bell-pepper-yellow.png" alt="">
+        <img src="imgs/broc.png" alt="">
+        <img src="imgs/celery.png" alt="">
+        <img src="imgs/pumpkin.webp" alt="">
+        <img src="imgs/bell-pepper-red.png" alt="">
+        <img src="imgs/bell-pepper-yellow.png" alt="">
+        <img src="imgs/broc.png" alt="">
+        <img src="imgs/celery.png" alt="">
+        <img src="imgs/pumpkin.webp" alt="">
+    </div>
+    <div class="flex">
+      <img class="v-imgs" src="imgs/broc.png" alt="" />
+      <img class="v-imgs" src="imgs/pumpkin.webp" alt="" />
+      <img class="v-imgs" src="imgs/celery.png" alt="" />
+    </div>
+  </body>
+</html>

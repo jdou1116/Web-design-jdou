@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hover-box {
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50vw;
+            height: 100vh;
+        }
+
+        .box {
+            position: static;
+            height: 0;
+        }
+
+        .box-content {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .box img {
+            width: 750px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+            transition: transform 0.2s ease-in-out;
+            pointer-events: none;
+        }
+
+        /* Box 1 */
+        #box-1 img {
+            transform: translate(-50%, -50%) translateY(-34px);
+            width: 60%;
+            height: 50%;
+
+        }
+
+        #box-1 .box-content {
+            top: calc(50% - 220px - 60px);
+        }
+
+        #box-1:hover img {
+            transform: translate(-50%, -50%) translateY(-40px);
+        }
+
+        /* Box 2 */
+        #box-2 img {
+            transform: translate(-50%, -50%) translateY(-17px);
+            height: 50%;
+            width: 65%;
+        }
+
+        #box-2 .box-content {
+            top: calc(50% - 220px - 30px);
+        }
+
+        #box-2:hover img {
+            transform: translate(-50%, -50%) translateY(-23px);
+        }
+
+        /* Box 3 */
+        #box-3 img {
+            transform: translate(-50%, -50%) translateY(0px);
+            height: 50%;
+            width: 70%;
+
+        }
+
+        #box-3 .box-content {
+            top: calc(50% - 220px);
+        }
+
+        #box-3:hover img {
+            transform: translate(-50%, -50%) translateY(-6px); 
+        }
+
+        /* Box 4 */
+        #box-4 img {
+            transform: translate(-50%, -50%) translateY(10px);
+        }
+
+        #box-4 .box-content {
+            top: calc(50% - 220px + 30px);
+        }
+
+        #box-4:hover img {
+            transform: translate(-50%, -50%) translateY(16px);
+            
+        }
+
+        /* Box 5 */
+        #box-5 img {
+            transform: translate(-50%, -50%) translateY(38px);
+        }
+
+        #box-5 .box-content {
+            top: calc(50% - 220px + 60px);
+        }
+
+        #box-5:hover img {
+            transform: translate(-50%, -50%) translateY(28px);
+        }
+
+        .container {
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px;
+            pointer-events: none;
+        }
+
+        #front {
+            z-index: 9;
+            top: 42%;
+        }
+
+        #back {
+            top: 42%;
+            z-index: 0;
+        }
+
+        .box-link {
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            text-decoration: none;
+        }   
+
+        .about {
+            position: fixed;
+            top: 70%;        
+            left: 48%;               
+            transform: translate(461px, -50%); 
+            width: 60px;
+            height: 100px;
+            background: rgb(255, 246, 237);
+            border: 5px solid rgb(174, 151, 128);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            z-index: 5;
+      }
+
+      .about-text {
+            display: inline-block;
+            transform: rotate(90deg);
+            transform-origin: center;
+            font-weight: bold;
+      }
+
+      .about-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            padding: 25px;
+            background: rgb(255, 246, 237);
+            border: 2px solid rgb(174, 151, 128);
+            border-radius: 8px;
+            display: none;
+            font-size: 24px;
+            line-height: 1.4;
+            z-index: 10;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      }
+
+    </style>
+    <title>Albulm Folder Box</title>
+</head>
+
+<body>
+
+    <div class="hover-box">
+        <img class="container" id="front" src="front.png" alt="">
+
+        <div class="box" id="box-1">
+            <img src="indie.png" alt="box-link" />
+            <a href="Indie/index.html" class="box-link">
+            <div class="box-content"></div></a>
+        </div>
+
+        <div class="box" id="box-2">
+            <img src="HYBRID.png" alt="box-link" />
+            <a href="hybrid/index.html" class="box-link">
+            <div class="box-content"></div></a>
+        </div>
+
+        <div class="box" id="box-3">
+            <img src="hippop.png" alt="box-link" />
+            <a href="hippop/index.html" class="box-link">
+            <div class="box-content"></div></a>
+        </div>
+
+        <div class="box" id="box-4">
+            <img src="rb.png" alt="" />
+            <a href="rb/index.html" class="box-link">
+            <div class="box-content"></div></a>
+        </div>
+
+        <div class="box" id="box-5">
+            <img src="pop.png" alt="" />
+            <a href="pop/index.html" class="box-link">
+            <div class="box-content"></div>
+            </a>
+        </div>
+        <img class="container" id="back" src="back.png" alt="">
+    </div>
+
+    <div class="about" onclick="toggleAbout()">
+      <span class="about-text">About</span>
+    </div> 
+
+    <div class="about-popup" id="aboutPopup">
+      <strong>About This Project</strong><br /><br />
+      <ul>
+        <li>
+          This project is a personal music catalog that reflects my musical
+          taste.
+        </li>
+        <li>
+          I enjoy a wide variety of genres, including Pop, Hip Hop, Indie, R&B,
+          and more.
+        </li>
+        <li>
+          This website serves as a space to record my favorite songs and share
+          the music I love with others.
+        </li>
+        <li>Created by Jiayao Dou.</li>
+      </ul>
+    </div>
+
+    <script>
+      function toggleAbout() {
+        const popup = document.getElementById("aboutPopup");
+        popup.style.display =
+          popup.style.display === "block" ? "none" : "block";
+      }
+    </script>
+
+</body>
+
+</html>

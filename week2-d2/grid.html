@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid</title>
+    <style>
+
+      * {
+        margin: 0;
+        padding: 0;  
+      }
+
+      body{
+        font-size: 24px;
+      }
+
+      
+      #C {
+        background-color: black;
+      }
+      #D {
+        background-color: beige;
+      }
+      #E {
+        background-color: black;
+      }
+      #F {
+        background-color: beige;
+      }
+      #G {
+        background-color: black;
+      }
+      #H {
+        background-color: beige;
+      }
+
+      .white-text {
+        color: white;
+      }
+
+      .grid{
+        display: grid;
+        height: 900px;
+        width: 900px;
+        border: 20px red solid;
+        background-color: blue;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+      }
+
+       #A {
+        background-color: black;
+        grid-column-start: 2;
+        grid-row-start: 2;
+      }
+
+      #B {
+        background-color: beige;
+        grid-column-start: 1 ;
+        grid-column-start: span 2;
+        grid-row-start: 3;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="grid">
+      <div class="white-text" id="A">A</div>
+      <div id="B">B</div>
+      <!-- <div class="white-text" id="C">C</div>
+      <div id="D">D</div>
+      <div class="white-text" id="E">E</div>
+      <div id="F">F</div>
+      <div class="white-text" id="G">G</div>
+      <div id="H">H</div>
+    </div></div> -->
+  </body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pop Albums</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+    <style>
+
+        body {
+            margin: 0;
+            font-family: 'Anonymous Pro', monospace;
+            background-image: url("HYBRID.png");
+            background-repeat: no-repeat;
+            background-size: 1300px auto; 
+            background-position: center center;
+            background-color: #fff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+       .cards-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-59%, -48%);
+            width: 900px;                
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            width: 140px;
+            height: 190px; 
+            background: #27272a;
+            color: #f9fafb;
+            padding: 12px; 
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image {
+            width: 100%;
+            height: 130px; 
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+
+        .card-link {
+            display: inline-block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover .image {
+            transform: scale(1.1);
+        }
+
+        .content {
+            position: absolute;
+            font-family: 'Anonymous Pro', monospace;
+            left: 0;
+            bottom: -36px; 
+            width: 120px;
+            padding: 14px;
+            transition: transform 0.5s;
+        }
+
+        .card:hover .content {
+            transform: translateY(-48px);
+        }
+
+        .content-bg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 140px;  
+            height: 70px; 
+            background: #1e3a8a;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.5s;
+        }
+
+        .card:hover .content-bg {
+            opacity: 0.5;
+            transform: translateY(-4px);
+        }
+
+        .title {
+            font-size: 1rem;
+            font-family: 'Anonymous Pro', monospace;
+            font-weight: bold;
+        }
+
+        .desc {
+            margin-top: 6px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .card:hover .desc {
+            opacity: 1;
+        }
+
+        .nav-imgs {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 30px;
+            z-index: 20;
+        }
+
+        .nav-imgs img {
+            width: 48px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-imgs img:hover {
+            transform: scale(1.1);
+        }
+
+
+        
+
+    </style>
+</head>
+<body>
+<div class="cards-wrapper">
+    
+<a href="https://open.spotify.com/album/1rpCHilZQkw84A3Y9czvMO" 
+   class="card-link" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  <div class="card">
+    <img class="image" src="album1.jpg" alt="Bewitched">
+    <div class="content">
+      <div class="content-bg"></div>
+      <span class="title">Bewitched</span>
+      <p class="desc">Laufey</p>
+    </div>
+  </div>
+</a>
+
+  <a href="https://open.spotify.com/album/0S0KGZnfBGSIssfF54WSJh" 
+   class="card-link" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  <div class="card">
+    <img class="image" src="album2.jpg" alt="WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?">
+    <div class="content">
+      <div class="content-bg"></div>
+      <span class="title">WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?</span>
+      <p class="desc">Billie Eilish</p>
+    </div>
+  </div>
+</a>
+
+  <a href="https://open.spotify.com/album/5jHyTMPIvcjpjqkdqmSEmP" 
+   class="card-link" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  <div class="card">
+    <img class="image" src="album3.jpg" alt="It's You">
+    <div class="content">
+      <div class="content-bg"></div>
+      <span class="title">It's You</span>
+      <p class="desc">MAX·keshi</p>
+    </div>
+  </div>
+</a>
+
+  <a href="https://open.spotify.com/album/3MYJYd73u0SatCnRVvRJ3M" 
+   class="card-link" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  <div class="card">
+    <img class="image" src="album4.jpg" alt="Bloom">
+    <div class="content">
+      <div class="content-bg"></div>
+      <span class="title">Bloom</span>
+      <p class="desc">Troye Sivan</p>
+    </div>
+  </div>
+</a>
+
+<a href="https://open.spotify.com/album/4N1fROq2oeyLGAlQ1C1j18" 
+   class="card-link" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  <div class="card">
+    <img class="image" src="album5.jpg" alt="NewJeans 2nd EP">
+    <div class="content">
+      <div class="content-bg"></div>
+      <span class="title">NewJeans 2nd EP</span>
+      <p class="desc">NewJeans</p>
+    </div>
+  </div>
+</a>
+
+  <a href="https://open.spotify.com/album/1YCj4PZi08G20y2ekGKY0C" 
+   class="card-link" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  <div class="card">
+    <img class="image" src="album6.jpg" alt="Easy">
+    <div class="content">
+      <div class="content-bg"></div>
+      <span class="title">Easy</span>
+      <p class="desc">Le Sserafim</p>
+    </div>
+  </div>
+</a>
+
+  <a href="https://open.spotify.com/album/7pooeoqY4uJkTaW70qxm3z" 
+   class="card-link" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  <div class="card">
+    <img class="image" src="album7.jpg" alt="Tipical of Me EP">
+    <div class="content">
+      <div class="content-bg"></div>
+      <span class="title">Typical of Me EP</span>
+      <p class="desc">Laufey</p>
+    </div>
+  </div>
+</a>
+</div>
+
+<div class="nav-imgs">
+
+  <a href="../hippop/index.html">
+    <img src="bback.png" alt="Back">
+  </a>
+
+  <a href="../new.html">
+    <img src="home.png" alt="Home">
+  </a>
+
+  <a href="../Indie/index.html">
+    <img src="next.png" alt="Next">
+  </a>
+
+</div>
+
+
+
+
+
+</body>
+</html>

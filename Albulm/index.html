@@ -1,186 +1,275 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
-  <meta charset="UTF-8">
-  <title>Albulm File Box</title>
-  <style>
-    body {
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <title>Album File Box</title>
+
+    <style>
+      body {
         margin: 0;
         height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         background: #ffffff;
-        font-family: 'Anonymous Pro', monospace;
-    }
+        font-family: "Anonymous Pro", monospace;
+      }
 
-    .container {
-        position: relative;
-        width: 400px; 
-        height: 200px;
-    }
+      .box {
+        display: relative;
+        display: inline-block;
+        transform: scale(0.4);
+        z-index: 1000;
+      }
 
-    
-    .rectangle {
+      .back {
         position: absolute;
-        bottom: 0;
-        width: 400px;
-        height: 200px;
-        background: rgb(205, 179, 153);
-        border: 2px solid rgb(174, 151, 128);
-    }
-
-   
-    .triangle-left {
-        position: absolute;
-        top: -63px;   
+        top: 0;
         left: 0;
-        width: 0;
-        height: 0;
-        border-right: 80px solid rgb(161, 135, 110); 
-        border-top: 60px solid transparent;
-    }
+        z-index: 1;
+      }
 
-    .rectangle-center{
-        position: absolute;
-        top: -63px;   
-        left: 80px; 
-        width: 240px;
-        height: 60px;
-        background: rgb(205, 179, 153);
-        border: 2px solid rgb(174, 151, 128);
-    }
+      .front {
+        position: relative;
+        z-index: 1000;
+        pointer-events: none;
+      }
 
-    .triangle-right {
-        position: absolute;
-        top: -63px;
-        right: -4px;
-        width: 0;
-        height: 0;
-        border-left: 80px solid rgb(161, 135, 110); 
-        border-top: 60px solid transparent;
-    }
+      .pop {
+        width: 50%;
+        z-index: 6;
+        transition: transform 0.3s ease;
+        pointer-events: auto;
+        /* clip-path: inset(0 0 20% 0); */
+      }
 
-    .about{
+      .box:hover .pop {
+        transform: translateX(-50%) translateY(-20px) scale(1.02);
+      }
+
+      .rb {
         position: absolute;
-        bottom: 0;
+        width: 80%;
         bottom: 10px;
-        right: -26px;
-        width: 20px;
-        height: 40px;
+        left: 48%;
+        transform: translateX(-50%) translateY(20px);
+        z-index: 5;
+        transition: transform 0.3s ease;
+        transform-origin: bottom center;
+        pointer-events: auto;
+        clip-path: inset(0 0 20% 0);
+      }
+
+      .box:hover .rb {
+        transform: translateX(-50%) translateY(-20px) scale(1.02);
+      }
+
+      .hippop {
+        position: absolute;
+        width: 70%;
+        bottom: 220px;
+        left: 48%;
+        transform: translateX(-50%) translateY(20px);
+        z-index: 4;
+        transition: transform 0.3s ease;
+        transform-origin: bottom center;
+        pointer-events: auto;
+        clip-path: inset(0 0 20% 0);
+      }
+
+      .box:hover .hippop {
+        transform: translateX(-50%) translateY(-20px) scale(1.02);
+      }
+
+      .HYBRID {
+        position: absolute;
+        width: 65%;
+        bottom: 340px;
+        left: 48%;
+        transform: translateX(-50%) translateY(20px);
+        z-index: 3;
+        transition: transform 0.3s ease;
+        transform-origin: bottom center;
+        pointer-events: none;
+        clip-path: inset(0 0 20% 0);
+      }
+
+      .box:hover .HYBRID {
+        transform: translateX(-50%) translateY(-20px) scale(1.02);
+      }
+
+      .jazz {
+        position: absolute;
+        width: 60%;
+        bottom: 460px;
+        left: 48%;
+        transform: translateX(-50%) translateY(20px);
+        z-index: 2;
+        transition: transform 0.3s ease;
+        transform-origin: bottom center;
+        pointer-events: none;
+        clip-path: inset(0 0 20% 0);
+      }
+
+      .box:hover .jazz {
+        transform: translateX(-50%) translateY(-20px) scale(1.02);
+      }
+
+      .about {
+        position: relative;
+        bottom: -250px;
+        right: 639px;
+        width: 60px;
+        height: 100px;
         background: rgb(255, 246, 237);
-        border: 2px solid rgb(174, 151, 128);
-        border-radius: 3px;
+        border: 5px solid rgb(174, 151, 128);
+        border-radius: 10px;
         cursor: pointer;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 12px;
-        font-family: 'Anonymous Pro', monospace;
-    }
+        font-size: 20px;
+        z-index: 5;
+      }
 
-    .about-popup {
+      .about-text {
+        display: inline-block;
+        transform: rotate(90deg);
+        transform-origin: center;
+        font-weight: bold;
+      }
+
+      .about-popup {
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 300px;
-        padding: 20px;
+        width: 500px;
+        padding: 25px;
         background: rgb(255, 246, 237);
         border: 2px solid rgb(174, 151, 128);
-        border-radius: 5px;
+        border-radius: 8px;
         display: none;
-        font-size: 14px;
+        font-size: 24px;
         line-height: 1.4;
         z-index: 10;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        font-family: 'Anonymous Pro', monospace;
-    }
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      }
 
-    .about-text {
-        display: inline-block;  
-        transform: rotate(90deg);
-        transform-origin: center;
-        font-family: 'Anonymous Pro', monospace;
-    }
+      .folder-container {
+        position: relative;
+        display: flex;
+        height: 300px;
+        align-self: center;
+        gap: 18px;
+        z-index: 100;
+        width: 80vw;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+      }
+      .folder-container div {
+        position: absolute;
+      }
 
-    .folder1{
-        position: absolute;          
-        bottom: 0;              
-        left: 50%;     
-        transform: translateX(-50%);
-        width: 375px;              
-        height: 210px;
-        background: rgb(169, 241, 255);
-        border: 2px solid rgb(147, 221, 236);
-        border-radius: 10px;
-        z-index: 0;    
-        transition: transform 0.3s ease, box-shadow 0.3s ease;    
-        transform-origin: bottom center;        
-    }
+      #div-1{
+        position: absolute;
+        transform: translate(-20px);
+      }
 
-   .folder1-tab {
-        position: absolute;     
-        top: -20px;              
-        left: 30px;             
-        width: 50px;            
-        height: 15px;           
-        background: rgb(169, 241, 255);
-        border: 2px solid rgb(147, 221, 236);
-        border-radius: 3px;
-        display: flex;           
-        justify-content: center; 
-        align-items: center;  
-    }
+      .folder-container .num {
+        cursor: pointer;
+        font-size: 28px;
+      }
 
-    .folder1-texts {
-        font-family: 'Anonymous Pro', monospace;
-        font-size: 10px;  
-        color: rgb(96, 168, 182);
-    }
+      .folder-container .num:hover {
+        color: rgb(174, 151, 128);
+      }
 
-    .folder1:hover {
-        transform: translateX(-50%) scale(1.02);
-    }
+      .num1:hover ~ .pop {
+        transform: translateX(-50%) translateY(-20px);
+      }
 
-  </style>
-</head>
-<body>
+      .num2:hover ~ .rb {
+        transform: translateX(-50%) translateY(-20px);
+      }
 
-    <div class="container">
-    <div class="triangle-left"></div>
-    <div class="rectangle-center"></div>
-    <div class="triangle-right"></div>
-    <a href="R&B/index.html">
-      <div class="folder1">
-            <div class="folder1-tab">
-                <span class="folder1-texts">POP</span>
-            </div>
-        </div>
-    </a>
-    <div class="rectangle"></div>
-    <div class="about" onclick="toggleAbout()">
-    <span class="about-text">About</span>
+      .num3:hover ~ .hippop {
+        transform: translateX(-50%) translateY(-20px);
+      }
+
+      .num4:hover ~ .HYBRID {
+        transform: translateX(-50%) translateY(-20px);
+      }
+
+      .num5:hover ~ .jazz {
+        transform: translateX(-50%) translateY(-20px);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="folder-container">
+      <div id="div-1">
+        <a href="" class="pop-link">
+          <img src="jazz.png" class="jazz" id="jazz" />
+        </a>
+      </div>
+      <div id="div-2">
+        <a href="" class="pop-link">
+          <img src="HYBRID.png" class="HYBRID" id="HYBRID" />
+        </a>
+      </div>
+      <div id="div-3">
+        <a href="" class="pop-link">
+          <img src="hippop.png" class="hippop" id="hippop" />
+        </a>
+      </div>
+      <div id="div-4">
+        <a href="" class="pop-link">
+          <img src="rb.png" class="rb" id="rb" />
+        </a>
+      </div>
+      <div id="div-5">
+        <a href="pop/index.html" class="pop-link">
+          <img src="pop.png" class="pop" id="pop" />
+        </a>
+      </div>
     </div>
+
+    <!-- <div class="about" onclick="toggleAbout()">
+      <span class="about-text">About</span>
+    </div> -->
+
     <div class="about-popup" id="aboutPopup">
-    <strong>About This Project</strong><br><br>
-    <ul>
-        <li>This project is a personal music catalog that reflects my musical taste.</li>
-        <li>I enjoy a wide variety of genres, including Pop, Rock, Hip Hop, Jazz, and R&B.</li>
-        <li>This website serves as a space to record my favorite songs and share the music I love with others.</li>
+      <strong>About This Project</strong><br /><br />
+      <ul>
+        <li>
+          This project is a personal music catalog that reflects my musical
+          taste.
+        </li>
+        <li>
+          I enjoy a wide variety of genres, including Pop, Hip Hop, Jazz, R&B,
+          and more.
+        </li>
+        <li>
+          This website serves as a space to record my favorite songs and share
+          the music I love with others.
+        </li>
         <li>Created by Jiayao Dou.</li>
-    </ul>
-</div>
+      </ul>
+    </div>
 
-  </div>
-
-  <script>
-    function toggleAbout() {
-      const popup = document.getElementById("aboutPopup");
-      popup.style.display = popup.style.display === "block" ? "none" : "block";
-    }
-  </script>
-
-</body>
+    <script>
+      function toggleAbout() {
+        const popup = document.getElementById("aboutPopup");
+        popup.style.display =
+          popup.style.display === "block" ? "none" : "block";
+      }
+    </script>
+  </body>
 </html>
