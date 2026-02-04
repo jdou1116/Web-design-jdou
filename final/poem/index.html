@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Crossing the Bar</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "IBM Plex Mono", monospace;
+        color: #fffff3;
+        overflow-x: hidden;
+    }
+
+    #bg {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+        #f6c28b,
+        #c97c5d,
+        #3b4a6b,
+        #05070d
+        );
+        transition: background 0.2s linear;
+        z-index: -1;
+    }
+
+    .poem {
+        position: fixed;
+        top: 20%;
+        left: 40px;
+        width: 28%;
+        max-width: 360px;
+        font-size: 14px;
+        line-height: 1.8;
+        letter-spacing: 0.4px;
+        z-index: 10;
+    }
+    .poem h1 {
+        font-size: 14px;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+    }
+    .poem p {
+        margin-bottom: 24px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .poem h1.visible,
+    .poem p.visible {
+        opacity: 0.9;
+        transform: translateY(0);
+    }
+
+    .scroll-space {
+        height: 300vh;
+        position: relative;
+    }
+
+    .gallery-link {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%) translateY(30px);
+        opacity: 0;
+        color: white;
+        text-decoration: underline;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 16px;
+        letter-spacing: 0.4px;
+        transition: all 0.6s ease;
+        cursor: pointer;
+    }
+
+    .gallery-link:hover {
+        opacity: 0.7;
+    }
+
+    .gallery-link.visible {
+        opacity: 0.9;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    #clouds {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.9;
+        transition: opacity 0.3s linear;
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    .cloud {
+        position: absolute;
+        background: radial-gradient(ellipse at center, 
+        rgba(255, 255, 255, 0.4) 0%, 
+        rgba(255, 255, 255, 0.25) 30%, 
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 70%);
+        border-radius: 50%;
+        filter: blur(25px);
+    }
+
+    #stars {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s linear;
+        z-index: 2;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+        animation: twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.2); }
+    }
+</style>
+</head>
+<body>
+
+    <div id="bg"></div>
+    <div id="clouds"></div>
+    <div id="stars"></div>
+    
+<aside class="poem">
+<h1>Crossing the Bar</h1>
+<p data-reveal="0.05">
+  Sunset and evening star,<br>
+  And one clear call for me!<br>
+  And may there be no moaning of the bar,<br>
+  When I put out to sea,
+</p>
+<p data-reveal="0.25">
+  But such a tide as moving seems asleep,<br>
+  Too full for sound and foam,<br>
+  When that which drew from out the boundless deep<br>
+  Turns again home.
+</p>
+<p data-reveal="0.50">
+  Twilight and evening bell,<br>
+  And after that the dark!<br>
+  And may there be no sadness of farewell,<br>
+  When I embark;
+</p>
+<p data-reveal="0.75">
+  For though from out our bourne of Time and Place<br>
+  The flood may bear me far,<br>
+  I hope to see my Pilot face to face<br>
+  When I have crossed the bar.
+</p>
+</aside>
+
+<div class="scroll-space">
+  <a href="/final/gallery/index.html" class="gallery-link">ENTER GALLERY</a>
+</div>
+
+<script>
+    const bg = document.getElementById("bg");
+    const stars = document.getElementById("stars");
+    const clouds = document.getElementById("clouds");
+    const poemTitle = document.querySelector(".poem h1");
+    const poemStanzas = document.querySelectorAll(".poem p");
+    const galleryLink = document.querySelector(".gallery-link");
+
+    function createClouds(count) {
+    for (let i = 0; i < count; i++) {
+        const cloud = document.createElement("div");
+        cloud.className = "cloud";
+        
+        const width = 250 + Math.random() * 200;
+        const height = 60 + Math.random() * 50;
+        cloud.style.width = width + "px";
+        cloud.style.height = height + "px";
+        
+        cloud.style.top = Math.random() * 70 + "%";
+        
+        cloud.style.left = -(width) + "px";
+        
+        const duration = 40 + Math.random() * 30;
+        cloud.style.animation = `drift ${duration}s linear infinite`;
+        
+        cloud.style.animationDelay = -Math.random() * duration + "s";
+        
+        clouds.appendChild(cloud);
+    }
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+    @keyframes drift {
+        from { transform: translateX(0); }
+        to { transform: translateX(calc(100vw + 500px)); }
+    }
+    `;
+    document.head.appendChild(style);
+
+    createClouds(6);
+
+    function createStars(count) {
+    for (let i = 0; i < count; i++) {
+        const star = document.createElement("div");
+        star.className = "star";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.top = Math.random() * 100 + "%";
+        star.style.animationDelay = Math.random() * 3 + "s";
+        star.style.animationDuration = (2 + Math.random() * 3) + "s";
+        stars.appendChild(star);
+    }
+    }
+
+    createStars(80);
+
+    window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const progress = scrollTop / maxScroll;
+
+    const darkness = Math.min(progress * 0.8, 0.8);
+    bg.style.filter = `
+        brightness(${1 - darkness})
+        saturate(${1 - progress * 0.3})
+        `;
+
+    if (progress < 0.45) {
+        clouds.style.opacity = Math.max(0.9 - progress * 0.5, 0.7);
+    } else {
+        clouds.style.opacity = Math.max((0.55 - progress) * 4, 0);
+    }
+
+    if (progress > 0.55) {
+        stars.style.opacity = (progress - 0.55) / 0.45;
+    } else {
+        stars.style.opacity = 0;
+    }
+
+    if (progress > 0) {
+        poemTitle.classList.add("visible");
+    }
+
+    poemStanzas.forEach(stanza => {
+        const revealAt = parseFloat(stanza.dataset.reveal);
+        if (progress >= revealAt) {
+        stanza.classList.add("visible");
+        }
+    });
+
+    if (progress > 0.85) {
+        galleryLink.classList.add("visible");
+    }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "IBM Plex Mono", monospace;
+        color: #111;
+        overflow-x: hidden;
+        min-height: 100vh;
+    }
+
+    #bg {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            #1a2540 0%,
+            #3b4a6b 6%,
+            #5a4a6b 10%,
+            #8b5a6b 15%,
+            #c97c5d 22%,
+            #d97d52 28%,
+            #e09060 33%,
+            #e4a577 38%,
+            #e8b48a 43%,
+            #ecc09d 48%,
+            #f0cbb0 53%,
+            #f3d7c3 58%,
+            #f7e3d5 63%,
+            #faeee3 70%,
+            #fdf8f3 80%,
+            #f8f7f4 90%,
+            #f8f7f4 100%
+        );
+        background-size: 100% 300%;
+        background-position: 0% 0%;
+        z-index: -2;
+    }
+
+    #dots {
+        position: fixed;
+        inset: 0;
+        background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+        background-size: 24px 24px;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    #dots.visible {
+        opacity: 1;
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 56px;
+        padding: 0 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: transparent;
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+        z-index: 1000;
+        transition: background 0.4s ease, border-color 0.4s ease;
+    }
+
+    nav.scrolled {
+        background: rgba(248, 247, 244, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom-color: rgba(0,0,0,0.15);
+    }
+
+    nav .logo {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: #fffff3;
+        transition: color 0.4s ease;
+    }
+
+    nav.scrolled .logo {
+        color: #111;
+    }
+
+    nav .nav-right {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+    }
+
+    nav .about-btn {
+        cursor: pointer;
+        opacity: 0.8;
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fffff3;
+        transition: color 0.4s ease;
+    }
+
+    nav.scrolled .about-btn {
+        color: #111;
+    }
+
+    nav .about-btn:hover {
+        opacity: 1;
+    }
+
+    #stars {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 1;
+        transition: opacity 0.6s ease;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+        animation: twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .hero {
+        height: 40vh;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 40px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-title {
+        font-size: 13px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #fffff3;
+        opacity: 0.85;
+        font-weight: 300;
+    }
+
+    .view-toggle {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        gap: 0;
+        padding: 0 0 32px;
+    }
+
+    .toggle-btn {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 10px 24px;
+        border: 1px solid rgba(0,0,0,0.2);
+        background: rgba(255,255,255,0.85);
+        color: #111;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .toggle-btn:first-child {
+        border-right: none;
+    }
+
+    .toggle-btn.active {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+    }
+
+    .toggle-btn:not(.active):hover {
+        background: rgba(255,255,255,1);
+    }
+
+    #grid-view {
+        position: relative;
+        z-index: 1;
+        padding: 0 32px 80px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        max-width: 1600px;
+        margin-left: auto;
+        margin-right: auto;
+        transition: filter 0.3s ease;
+    }
+
+    #grid-view.blurred {
+        filter: blur(8px);
+    }
+
+    .photo-card {
+        position: relative;
+        background: #fff;
+        padding: 12px;
+        padding-bottom: 60px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .photo-card:hover {
+        transform: translateY(-4px) rotate(0deg) !important;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .photo-card:nth-child(3n+1) { transform: rotate(-1deg); }
+    .photo-card:nth-child(3n+2) { transform: rotate(1deg); }
+    .photo-card:nth-child(3n)   { transform: rotate(-0.5deg); }
+
+    .photo-wrapper {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        aspect-ratio: 1;
+        overflow: hidden;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .photo-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .photo-wrapper.error {
+        background: #e0e0e0;
+    }
+
+    .photo-wrapper.error::after {
+        content: 'Image not found';
+        font-size: 10px;
+        color: #999;
+    }
+
+    .photo-card:hover .photo-wrapper img {
+        transform: scale(1.05);
+    }
+
+    .photo-caption {
+        position: absolute;
+        bottom: 10px;
+        left: 12px;
+        right: 12px;
+        font-size: 10px;
+        line-height: 1.3;
+        color: #111;
+        text-align: left;
+        white-space: normal;
+        word-wrap: break-word;
+        z-index: 2;
+    }
+
+    #journal-view {
+        display: none;
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        min-height: calc(100vh - 40vh - 80px);
+        padding: 0 0 80px;
+    }
+
+    #journal-view.active {
+        display: block;
+    }
+
+    #journal-canvas {
+        position: relative;
+        width: 100%;
+        min-height: 1200px;
+        background: rgba(255,255,255,0.4);
+        border: 1px solid rgba(0,0,0,0.08);
+        margin: 0 auto;
+        overflow: visible;
+    }
+
+    .journal-toolbar {
+        position: sticky;
+        top: 72px;
+        z-index: 100;
+        background: transparent;
+        padding: 16px 32px;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .toolbar-btn {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 8px 16px;
+        border: 1px solid rgba(0,0,0,0.2);
+        background: #fff;
+        color: #111;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .toolbar-btn:hover {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+    }
+
+    .toolbar-label {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        opacity: 0.6;
+        margin-left: 8px;
+    }
+
+    .draggable {
+        position: absolute;
+        cursor: move;
+        user-select: none;
+        z-index: 10;
+    }
+
+    .draggable.selected {
+        z-index: 50 !important;
+    }
+
+    .draggable:active {
+        cursor: grabbing;
+    }
+
+    .journal-polaroid {
+        background: #fff;
+        padding: 10px;
+        padding-bottom: 50px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        width: 180px;
+        transition: box-shadow 0.2s ease;
+    }
+
+    .journal-polaroid:hover {
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .journal-polaroid img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .journal-polaroid .caption {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        font-size: 9px;
+        color: #111;
+    }
+
+    .journal-note {
+        background: rgba(255, 250, 220, 0.95);
+        border: 1px solid rgba(0,0,0,0.1);
+        padding: 12px;
+        min-width: 150px;
+        max-width: 300px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .journal-note textarea {
+        width: 100%;
+        border: none;
+        background: transparent;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        line-height: 1.5;
+        resize: none;
+        outline: none;
+        color: #111;
+        min-height: 80px;
+    }
+
+    .delete-btn {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 20px;
+        height: 20px;
+        background: #111;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        font-size: 12px;
+        line-height: 1;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+    }
+
+    .draggable:hover .delete-btn {
+        display: flex;
+    }
+
+    .delete-btn:hover {
+        background: #d00;
+    }
+
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        z-index: 2000;
+        padding: 40px;
+    }
+
+    .lightbox.active {
+        display: flex;
+    }
+
+    .lightbox-polaroid {
+        background: #fff;
+        padding: 20px;
+        padding-bottom: 80px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        max-width: 600px;
+        max-height: 80vh;
+        animation: popIn 0.3s ease;
+        position: relative;
+    }
+
+    @keyframes popIn {
+        from { transform: scale(0.8) rotate(-2deg); opacity: 0; }
+        to   { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .lightbox-polaroid img {
+        width: 100%;
+        height: auto;
+        display: block;
+        max-height: calc(80vh - 120px);
+        object-fit: contain;
+    }
+
+    .lightbox-caption {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #111;
+        text-align: left;
+    }
+
+    .lightbox-close {
+        position: absolute;
+        top: 32px;
+        right: 32px;
+        font-size: 32px;
+        color: white;
+        cursor: pointer;
+        opacity: 0.8;
+        background: none;
+        border: none;
+        padding: 8px;
+        line-height: 1;
+        z-index: 2001;
+    }
+
+    .lightbox-close:hover {
+        opacity: 1;
+    }
+
+    .about-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+        background: rgba(248, 247, 244, 0.9);
+        backdrop-filter: blur(6px);
+    }
+
+    .about-content {
+        max-width: 420px;
+        padding: 32px;
+        line-height: 1.6;
+        background: #fff;
+        color: #111;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .about-content h2 {
+        margin-top: 0;
+        font-size: 20px;
+    }
+
+    .about-content button {
+        margin-top: 24px;
+        background: none;
+        border: 1px solid #111;
+        color: #111;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-family: "IBM Plex Mono", monospace;
+    }
+
+    .about-content button:hover {
+        background: #111;
+        color: #fff;
+    }
+
+    @media (max-width: 1200px) {
+        #grid-view { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    @media (max-width: 900px) {
+        #grid-view { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+        #grid-view { grid-template-columns: repeat(2, 1fr); }
+        .lightbox-polaroid { max-width: 90%; }
+    }
+</style>
+</head>
+<body>
+
+<div id="bg"></div>
+<div id="dots"></div>
+<div id="stars"></div>
+
+<nav id="nav">
+  <div class="logo">Sunset</div>
+  <div class="nav-right">
+    <div class="about-btn" onclick="openAbout()">About</div>
+  </div>
+</nav>
+
+<div class="hero">
+    <div class="hero-title">A collection of sunsets</div>
+</div>
+
+<div class="view-toggle">
+    <button class="toggle-btn active" id="btn-grid" onclick="switchView('grid')">Gallery</button>
+    <button class="toggle-btn" id="btn-journal" onclick="switchView('journal')">Journal</button>
+</div>
+
+<div id="grid-view"></div>
+
+<div id="journal-view">
+    <div class="journal-toolbar">
+        <button class="toolbar-btn" onclick="addPolaroid()">+ Add Photo</button>
+        <button class="toolbar-btn" onclick="addNote()">+ Add Note</button>
+        <span class="toolbar-label">Drag items to arrange</span>
+    </div>
+    <div id="journal-canvas"></div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <div class="lightbox-polaroid">
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
+<div class="about-overlay" id="about">
+  <div class="about-content">
+    <h2>About This Gallery</h2>
+    <p>This site is a small space for collecting and preserving sunset photographs, accompanied by an interactive experience inspired by the poem Crossing the Bar.</p>
+    <button onclick="closeAbout()">Close</button>
+  </div>
+</div>
+
+<script>
+const photos = [
+  { src: '1.JPG', location: 'LOCATION: FAIRBANKS, AK' },
+  { src: '5.JPG', location: 'LOCATION: PALO ALTO, CA' },
+  { src: '35.JPG', location: 'LOCATION: BEIJING' },
+  { src: '6.JPG', location: 'LOCATION: PALO ALTO, CA' },
+  { src: '7.HEIC', location: 'LOCATION: CUPERTINO, CA' },
+  { src: '2.JPG', location: 'LOCATION: PALO ALTO, CA' },
+  { src: '20.JPG', location: 'LOCATION: PROVIDENCE, RI' },
+  { src: '4.JPG', location: 'LOCATION: PALO ALTO, CA' },
+  { src: '9.HEIC', location: 'LOCATION: TAIYUAN, SHANXI' },
+  { src: '3.JPG', location: 'LOCATION: PALO ALTO, CA' },
+  { src: '11.JPG', location: 'LOCATION: MAIN BEACH, CA' },
+  { src: '12.JPG', location: 'LOCATION: ORLANDO, FL' },
+  { src: '14.JPG', location: 'LOCATION: XIAN, SHANNXI' },
+  { src: '15.JPG', location: 'LOCATION: BOSTON, MA' },
+  { src: '10.HEIC', location: 'LOCATION: PALO ALTO, CA' },
+  { src: '8.JPG', location: 'LOCATION: PROVIDENCE, RI' },
+  { src: '16.JPG', location: 'LOCATION: MOUNTAIN VIEW, CA' },
+  { src: '17.JPG', location: 'LOCATION: TAIYUAN, SHANXI' },
+  { src: '18.JPG', location: 'LOCATION: PROVIDENCE, RI' },
+  { src: '19.JPG', location: 'LOCATION: STANFORD, CA' },
+  { src: '21.JPG', location: 'LOCATION: PROVIDENCE, RI' },
+  { src: '33.JPG', location: 'LOCATION: MIAMI, FL' },
+  { src: '23.JPG', location: 'LOCATION: PROVIDENCE, RI' },
+  { src: '24.JPG', location: 'LOCATION: PALO ALTO, CA' },
+  { src: '25.JPG', location: 'LOCATION: PALO ALTO, CA' },
+  { src: '26.JPG', location: 'LOCATION: REVERE, MA' },
+  { src: '27.JPG', location: 'LOCATION: NEWPORT, RI' },
+  { src: '28.JPG', location: 'LOCATION: NEWPORT, RI' },
+  { src: '29.JPG', location: 'LOCATION: SAN FRANCISCO, CA' },
+  { src: '30.JPG', location: 'LOCATION: NEWPORT, CA' },
+  { src: '31.JPG', location: 'LOCATION: MIAMI, FL' },
+  { src: '22.JPG', location: 'LOCATION: PROVIDENCE, RI' },
+  { src: '32.JPG', location: 'LOCATION: MIAMI, FL' },
+  { src: '34.JPG', location: 'LOCATION: PROVIDENCE, RI' },
+  { src: '36.JPG', location: 'LOCATION: JINSHANLING, HEBEI' },
+  { src: '37.JPG', location: 'LOCATION: BEIJING'},
+];
+
+const gridView = document.getElementById('grid-view');
+const journalView = document.getElementById('journal-view');
+const journalCanvas = document.getElementById('journal-canvas');
+const btnGrid = document.getElementById('btn-grid');
+const btnJournal = document.getElementById('btn-journal');
+const nav = document.getElementById('nav');
+const bg = document.getElementById('bg');
+const dots = document.getElementById('dots');
+const stars = document.getElementById('stars');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCaption = document.getElementById('lightbox-caption');
+const about = document.getElementById('about');
+
+let draggedElement = null;
+let offsetX = 0, offsetY = 0;
+let photoIndex = 0; 
+
+(function createStars(count) {
+    for (let i = 0; i < count; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top  = Math.random() * 100 + '%';
+        s.style.animationDelay = Math.random() * 3 + 's';
+        s.style.animationDuration = (2 + Math.random() * 3) + 's';
+        stars.appendChild(s);
+    }
+})(80);
+
+photos.forEach((photo, i) => {
+    const card = document.createElement('div');
+    card.className = 'photo-card';
+    card.onclick = () => openLightbox(photo.src, photo.location);
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'photo-wrapper';
+
+    const img = document.createElement('img');
+    img.src = photo.src;
+    img.alt = `Photo ${i + 1}`;
+    img.loading = 'lazy';
+    img.onerror = () => wrapper.classList.add('error');
+
+    const caption = document.createElement('div');
+    caption.className = 'photo-caption';
+    caption.textContent = photo.location;
+
+    wrapper.appendChild(img);
+    card.appendChild(wrapper);
+    card.appendChild(caption);
+    gridView.appendChild(card);
+});
+
+function switchView(view) {
+    if (view === 'grid') {
+        gridView.style.display = 'grid';
+        journalView.classList.remove('active');
+        btnGrid.classList.add('active');
+        btnJournal.classList.remove('active');
+    } else {
+        gridView.style.display = 'none';
+        journalView.classList.add('active');
+        btnJournal.classList.add('active');
+        btnGrid.classList.remove('active');
+    }
+}
+
+function addPolaroid() {
+    const photo = photos[photoIndex % photos.length];
+    photoIndex++;
+
+    const polaroid = document.createElement('div');
+    polaroid.className = 'draggable journal-polaroid';
+    polaroid.style.left = (Math.random() * (journalCanvas.offsetWidth - 200)) + 'px';
+    polaroid.style.top = (Math.random() * 400 + 100) + 'px';
+    polaroid.style.transform = `rotate(${(Math.random() - 0.5) * 8}deg)`;
+
+    polaroid.innerHTML = `
+        <button class="delete-btn" onclick="deleteItem(this)">×</button>
+        <img src="${photo.src}" onerror="this.style.background='#ddd'">
+        <div class="caption">${photo.location}</div>
+    `;
+
+    makeDraggable(polaroid);
+    journalCanvas.appendChild(polaroid);
+}
+
+function addNote() {
+    const note = document.createElement('div');
+    note.className = 'draggable journal-note';
+    note.style.left = (Math.random() * (journalCanvas.offsetWidth - 200)) + 'px';
+    note.style.top = (Math.random() * 400 + 100) + 'px';
+    note.style.transform = `rotate(${(Math.random() - 0.5) * 4}deg)`;
+
+    note.innerHTML = `
+        <button class="delete-btn" onclick="deleteItem(this)">×</button>
+        <textarea placeholder="Write a note..."></textarea>
+    `;
+
+    makeDraggable(note);
+    journalCanvas.appendChild(note);
+}
+
+function makeDraggable(element) {
+    element.addEventListener('mousedown', startDrag);
+    element.addEventListener('touchstart', startDrag);
+}
+
+function startDrag(e) {
+    if (e.target.tagName === 'TEXTAREA' || e.target.classList.contains('delete-btn')) {
+        return;
+    }
+
+    e.preventDefault();
+    draggedElement = e.target.closest('.draggable');
+    if (!draggedElement) return;
+
+    draggedElement.classList.add('selected');
+    draggedElement.style.zIndex = 50;
+
+    const rect = draggedElement.getBoundingClientRect();
+    const canvasRect = journalCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
+
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('touchmove', drag);
+    document.addEventListener('mouseup', stopDrag);
+    document.addEventListener('touchend', stopDrag);
+}
+
+function drag(e) {
+    if (!draggedElement) return;
+    const canvasRect = journalCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    let newLeft = clientX - canvasRect.left - offsetX;
+    let newTop = clientY - canvasRect.top - offsetY;
+
+    draggedElement.style.left = newLeft + 'px';
+    draggedElement.style.top = newTop + 'px';
+}
+
+function stopDrag() {
+    if (draggedElement) {
+        draggedElement.classList.remove('selected');
+        draggedElement.style.zIndex = 10;
+    }
+    draggedElement = null;
+    document.removeEventListener('mousemove', drag);
+    document.removeEventListener('touchmove', drag);
+    document.removeEventListener('mouseup', stopDrag);
+    document.removeEventListener('touchend', stopDrag);
+}
+
+function deleteItem(btn) {
+    btn.closest('.draggable').remove();
+}
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const totalScroll = document.body.scrollHeight - window.innerHeight;
+    const progress = totalScroll > 0 ? scrollTop / totalScroll : 0;
+
+    bg.style.backgroundPosition = `0% ${progress * 100}%`;
+    stars.style.opacity = progress < 0.15 ? 1 : progress < 0.35 ? 1 - (progress - 0.15) / 0.2 : 0;
+    dots.classList.toggle('visible', progress > 0.3);
+    nav.classList.toggle('scrolled', scrollTop > 60);
+});
+
+function openLightbox(src, location) {
+    lightboxImg.src = src;
+    lightboxCaption.textContent = location;
+    lightbox.classList.add('active');
+    gridView.classList.add('blurred');
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    gridView.classList.remove('blurred');
+}
+
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+function openAbout() { about.style.display = 'flex'; }
+function closeAbout() { about.style.display = 'none'; }
+</script>
+
+</body>
+</html>

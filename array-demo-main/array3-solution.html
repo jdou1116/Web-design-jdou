@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>Todesfuge by Paul Celan</div>
+    <button>next verse</button>
+    <div id="verse-display"></div>
+    <script>
+      const verse = [
+        "Black milk of daybreak we drink it at dusk",
+        "we drink it at noon in mornings we drink it at night",
+        "we drink and we drink",
+        "we dig a grave in the sky there is plenty of room",
+        "A man lives in the house he plays with his snakes he writes",
+        "he writes when it darkens in Deutschland your golden hair Margarete",
+        "he writes it and steps outside of the house and the strike of the stars he whistles his hounds",
+        "he whistles his Jews dig a grave in the ground",
+        "he commands us strike up for the dance",
+      ];
+
+      const button = document.querySelector("button");
+      const verseDisplay = document.querySelector("#verse-display");
+
+      let currentVerse = 0;
+
+      button.addEventListener("click", function () {
+        verseDisplay.textContent = verse[currentVerse];
+        currentVerse = currentVerse + 1; // if you got confused by this, go back to js-workshop-3 demo 3, the one with addNumber(){};
+
+      });
+    </script>
+  </body>
+</html>
